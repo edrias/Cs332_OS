@@ -19,13 +19,18 @@ int main(int argc, char *argv[])
 	{
 		
 		printf("Child 1 Pid: %d\n",getpid());
+		sleep(1);
 		execv(args1[0],args1);
+		sleep(1);
 		printf("EXECV Prcs_P1 failed\n");
+		sleep(1);
 	}
 	else
 	{
 		printf("Parent of child 1 is : %d\n",getpid());
+		sleep(1);
 		waitpid(child_1,&status,0);
+		sleep(1);
 	}
 
 	int child_2 = fork();
@@ -33,17 +38,21 @@ int main(int argc, char *argv[])
 	char *args2[2];
 	args2[0] = "./Prcs_P2";
 	args2[1] = NULL;
-
+	sleep(1);
 	if (child_2 == 0)
 	{
 		printf("Child 2 Pid: %d\n",getpid());
+		sleep(1);
 		execv(args2[0], args2);
+		sleep(1);
 		printf("EXECV  Prcs_P2 failed\n");
+		sleep(1);
 
 	}
 	else
 	{
 		printf("Parent of child 2 is: %d\n",getpid());
 		waitpid(child_2,&status2,0);
+		sleep(1);
 	}
 }
