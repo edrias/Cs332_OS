@@ -1,0 +1,35 @@
+Emmanuil Simkhayev          | 
+CSc332 - Task-2 - Problem 2 |
+-----------------------------
+
+Interpretation of workings code. 
+-------------------------------------------------------------
+//parent P
+int a=10, b=25, fq=0, fr=0
+fq=fork() // fork a child - call it Process Q
+if(fq==0) // Child successfully forked
+	a=a+b
+	print values of a, b, and process_id
+	fr=fork() // fork another child - call it Process R
+	if(fr!=0)
+		b=b+20
+		print values of a, b, and process_id
+	else
+		a=(a*b)+30
+		print values of a, b, and process_id
+else
+	b=a+b-5;
+	print values of a, b, and process_id
+-------------------------------------------------------------
+Line - 8 - a child is forked from parent.
+Line - 9 - if child Q is successfully forked, we perform the following
+		   operations: "a = a+b". "a" is now 35
+Line - 13 - fork another child, process R. 
+Line - 14 - If process R is successfully forked, perform operation "b = b+20".
+			"b" is now 45.
+Line - 17 - If process R is not successfully forked perform operation a =
+(a*b)+30. "a" is now 905.
+Line - 20 - if child Q is not successfully forked, perform operation b =
+a+b-5. "b" is now 30.
+
+Running the code several times showed that the order does indeed change. 
