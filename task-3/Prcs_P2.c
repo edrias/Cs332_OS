@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 		else
 			index +=fd2_bufsize;	
 	}
-	printf("file size of source.txt: %d\n",file_size);
+	//printf("file size of source.txt: %d\n",file_size);
 
 	
 	close(fd);
