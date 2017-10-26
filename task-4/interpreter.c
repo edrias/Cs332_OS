@@ -23,44 +23,87 @@ int main(int argc, char *argv[])
 	//3. interpeter creates child process to execute command
 	//4. interpreter waits for new command(command "quit" to exit)
 	
+	//char fd[128] = "/bin/";
+	char cmd[256];	
+	//char cmd1[128];
+	char *args[256];
 	int status = -1;
-
-	//input format 
-	// /file/directory command
-	char fd[256];
-	char cmd[256];
+	char *token;
+	int i;
 	printf(">>welcome to C System call interpreter\n");
 	
-	while (strcmp(fd,"quit"))
+	while (1)
 	{
+		//char fd[128] = "/bin/";
+		//char cmd[256];
+		//char *sec_cmd[256];//second command ex: ls -al <- -al is second command.
 		printf(">>");
-		//scan the file destination
-		scanf("%s",fd);
-		if (!strcmp(fd,"quit"))
+		//scan the /bin/ command
+		//scanf("%s",cmd);
+		fgets(cmd,256,stdin);
+		//printf("fd0: %s\n",fd);
+		printf("cmd0: %s\n",cmd);	
+		//printf("cmd1: %s\n",cmd[1]);
+		if (!strcmp(cmd,"quit"))
 			break;
-		//scan command--not neccessary for execl()
-		scanf("%s",cmd);
+		//update fd to include command- ex. /bin/ls
+		token = strtok(cmd," ");
+		args[0] =token;//= strtok(NULL," ");
+		printf("token: %s\n",token);
+		//args = token;
+		//strcat(fd,token);//of the format /bin/cmd1 ex. /bin/ls
+		//printf("fd_cat: %s\n",fd);
 		
+		
+		for (int i = 1; i < 10; ++i)			
+		{
+			token = strtok(NULL," ");
+			//if (i ==0)
+			//	strcat(fd,token);
+			printf("token[%d]: %s\n",i,token);
+			args[i] = token;
+			printf("args[%d]: %s\n",i,args[i]);
 
+		}
+		//strcat(fd,args[0]);
+		//args = cmd;
+		//scanf("%[^\n]",sec_cmd);//scan until newline
 		int child = fork();
 		pid_t pid, pid_p;
+		
 		if (child == 0)
 		{
 			pid = getpid();
-			//execl() & execlp() work but I'm not sure if we are to implement other exec() family functions
-			//and how would we even do that?
-			execlp(fd,cmd,0,(char*) NULL);
-			perror("Interpreter failure");
+			printf("args: %s\n",args);
+			//printf("fd: %s\n",fd);
+			execvp(args[0],args);
+			printf("Interpreter Failure: EXECVP");
+			printf("\n");
+			/*if (strcmp(sec_cmd,"\n"))
+			{
+				//printf("POOP");
+				execl(fd,"cmd",0,(char*) NULL);
+				perror("Interpreter failure");
+			}
+			else*/
+			//{
+				//sec_cmd[0] = cmd;
+				//execv(fd,sec_cmd);
+				//printf("Interpreter Failure: EXECVP");
+			//}
+					
 		}
 		else
 		{
 			pid_p = getpid();
 			waitpid(child,&status,0);
 		}
-		printf("\n");
+
+		//printf("\n");
 	}
 	printf("\n");
 	return 0;
 }
+
 
 
